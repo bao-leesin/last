@@ -1,0 +1,44 @@
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+    background-color: #FFFFFF;
+    color: black;
+  }
+  .row.content {height: auto}
+  .sidenav {
+    padding-top: 20px;
+    background-color: #0B7D4A;
+    height: 100%;
+  }
+  .sidenav ul a{
+      text-align: left;
+      display: block;
+      line-height: 65px;
+      color: white;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      transition: .4s;
+  }
+  ul p:hover a{
+      padding-left: 5px;
+  }
+  .sidenav ul a i{
+      margin-right: 10px;
+  }
+  .sidenav ul li{
+      list-style-type: none;
+  }
+  
+  footer {
+    background-color: #FFFFFF;
+    color: black;
+    padding: 15px;
+  }
+  @media screen and (max-width: 767px) {
+    .sidenav {
+      height: auto;
+      padding: 5px;
+    }
+    .row.content {height:auto;} 
+  }

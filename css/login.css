@@ -1,0 +1,67 @@
+body{
+    background: url(../images/background_login.jpg);
+    background-size: cover;
+    background-position-y :-110px ;
+} 
+#wrapper{
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+}
+#form-login{
+    max-width: 400px;
+    background: rgba(119, 202, 228, 0.6);
+    flex-grow: 1;
+    padding: 30px 30px 40px 40px;
+    box-shadow: 0px 0px 7px 12px rgba(236, 195, 195, 0.8);
+} 
+.form-heading{
+    text-align: center;
+    margin-bottom: 30px;
+}
+.form-group{
+    border-bottom: 1px solid #fff;
+    margin-top: 15px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+
+
+
+.form-group i{
+    font-size: large;
+    padding-right: 10px;
+}
+.form-input{
+    background: transparent;
+    border: 0;
+    outline: 0;
+    font-size: large;
+    flex-grow: 1;
+}
+#eye i{
+    padding-right: 0;
+    cursor: pointer;
+}
+.form-submit{
+    background: transparent;
+    border: 1px solid black;
+    color: black;
+    width: 100%;
+    text-transform: uppercase;
+    padding: 6px 10px;
+    transition: 0.25s ease-in-out;
+    margin-top: 20px;
+    cursor: pointer;
+   
+
+}
+.form-submit:hover{
+    border: 1px solid yellow ;
+}
+.form-but{
+    margin: auto;
+    display: block;
+}

@@ -1,0 +1,160 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+html{
+    font-family:Arial, Helvetica, sans-serif;
+}
+/* header */
+#header{
+    text-align: center;
+    margin-top: 50px;
+    
+}
+#header .header_title {
+    color: green;
+    font-size: 40px;
+}
+
+#header .header_name {
+    color: #AF3FCB;
+    font-size: 20px;
+}
+#header .header_title span{
+    color: rgb(170, 73, 73);
+}
+/* container */
+#container{
+    display: flex; 
+    margin-top: 100px;
+}
+#list_items{
+    margin-right: 100px;
+}
+/* Content */
+#content{
+    margin-left: 50px;
+    padding-right: 80px;
+    height: 400px;
+    overflow: auto;
+}
+.content_item{
+    display: flex;
+    margin-top: 50px;
+}
+.content_image{
+    margin-right: 40px;
+}
+.content_image img{
+    height: 150px;
+    width: 100px;
+}
+.content_infor{
+    /* margin-right: 100px; */
+    font-size: 18px;
+}
+.price{
+    font-size: 18px;
+    margin-left: 50px;
+}
+.infor_button{
+    margin-top: 20px;
+}
+.button{
+    width: 40px;
+    height: 30px;
+}
+/* menu */
+/* #menu{
+    height: 250px;
+    width: 500px;
+    
+    margin-right: 50px;
+} */
+#menu_price{
+    display: flex;
+    
+}
+.price1{
+    margin: 80px 50px 0 0;
+}
+.price2{
+    margin: 170px 0px 0 0;
+}
+.menu{
+    height: 250px;
+    width: 450px;
+    border: 2px solid #ccc;
+    margin-right: 50px;
+    
+}
+.menu_title{
+    text-align: center;
+    background: #AF3FCB;
+    color: #fff;
+    font-size:20px;
+    padding: 10px;
+}
+.menu_infor_item{
+    display: flex;
+}
+.menu_infor_item p:first-child{
+    margin-right: 160px;
+}
+/* .menu_infor_item p:last-child{
+    margin-right: 120px;
+} */
+.menu_infor{
+    margin-top: 40px;
+    border-bottom: 2px solid #333;
+    padding-bottom: 20px;
+}
+.menu_bill{
+    margin-top: 40px;
+}
+
+.menu_price i{
+    margin-left: 100px;
+}
+
+#back {
+    position: absolute;
+    width: 167px;
+    height: 45px;
+    left: 554px;
+    top: 766px;
+    background: #B9B9B9;
+    border-radius: 5px;    
+}
+
+#back button {
+    background: transparent;
+    border: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+#checkout {
+    position: absolute;
+    width: 167px;
+    height: 45px;
+    left: 823px;
+    top: 766px;
+    
+    background: #FFC705;
+    border-radius: 5px;    
+}
+
+#checkout button {
+    background: transparent;
+    border: none;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
