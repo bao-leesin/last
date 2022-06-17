@@ -1,17 +1,32 @@
 <?php
-require_once('./../dao/dbhelper.php');
-require_once('./../shared/config.php');
+date_default_timezone_set('Asia/Ho_Chi_Minh');
+
+$odered= date('d/m/Y');
+echo $odered;
+
+require_once('../dao/dbhelper.php');
+require_once('../shared/config.php');
+session_start();
+
+$account_id = $_SESSION[S_ACCOUNT_ID];
+$loginId = $_SESSION[S_USERNAME];
+
+if(isset($loginId) && isset($account_id)) {
+  $cartRow = getCart($loginId, $account_id);
+  $cartId = $cartRow[0]['id'];
+ 
+}
+
 if (isset($_POST['thanhtoan'])) {
-  $account_id = $fullname = $phone = $address = $note = "";
+  
   $fullname = $_POST['fullname'];
   $phone = $_POST['phone'];
   $address = $_POST['address'];
   $note = $_POST['note'];
 
-  $account_id = $_SESSION[S_ACCOUNT_ID];
+  insert_shippingTable($fullname,$phone,$address,$note,$account_id,$tong_tien,$odered);
 
-  insert_shippingTable($fullname,$phone,$address,$note,$account_id);
-  // $data = getCart();
+
 }
 
 
@@ -73,7 +88,7 @@ Nhập thông tin đơn hàng -->
           <h4>Phương thức thanh toán</h4>
           <div class="form-check">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="cash" value="   mat" checked>
-            <img src="../images/cash.png" height="32" width="32">
+            <img src="./../images/cash.png" height="32" width="32">
             <label class="form-check-label" for="cash">
               Tiền mặt
             </label>
@@ -81,7 +96,7 @@ Nhập thông tin đơn hàng -->
 
           <div class="form-check">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="bank" value="chuyen khoan">
-            <img src="../images/bank.png" height="32" width="32">
+            <img src="./../images/bank.png" height="32" width="32">
             <label class="form-check-label" for="bank">
               Chuyển khoản
             </label>
@@ -89,13 +104,15 @@ Nhập thông tin đơn hàng -->
 
           <div class="form-check">
             <input class="form-check-input" type="radio" name="flexRadioDefault" id="momo" value="momo">
-            <img src="../images/Momo.png " height="32" width="32">
+            <img src="./../images/Momo.png " height="32" width="32">
             <label class="form-check-label" for="momo">
               Ví Momo
             </label>
           </div>
 
           <input type="submit" name="thanhtoan" value="Thanh toán" class="btn btn-danger">
+
+          <button onclick="location.href='/webBook/index.php'">QUAY LẠI</button>
 
         </div>
       </div>
@@ -118,27 +135,47 @@ Nhập thông tin đơn hàng -->
           }
         </style>
 
-        <table style="width: 100%; text-align: center;border-collapse: collapse;">
+        <table style="width: 100% ; text-align: center;border-collapse: collapse;" cellpadding = "10">
           <tr>
-            <th>Số thứ tự</th>
+          
             <th>Tên sản phẩm</th>
             <th>Hình ảnh</th>
             <th>Số lượng</th>
             <th>Giá sản phẩm</th>
-            <th>Tổng tiền thanh toán</th>
+            <th>Thành tiền</th>
+            
           </tr>
-          
+         
+      
+          <?php 
+          $tong_tien=0;
+
+          foreach(getLineItemsInCart($cartId) as $lineItem) {    
+
+             $ten_san_pham = $lineItem['name'];
+             $hinh_anh = $lineItem['image'];
+             $so_luong = $lineItem['quantity'];
+             $gia = $lineItem['price'];
+             $thanh_tien = $gia * $so_luong;
+             $tong_tien += $thanh_tien; 
+
+             ?>
 
           <tr>
             
-            <td><?php echo $ten_san_pham = "tên sản phẩm" ?></td>
-            <td><?php echo $hinh_anh = "tên sản phẩm" ?></td>
+            <td><?php echo $ten_san_pham  ?></td>
+            <td><img src= "<?php echo $hinh_anh  ?>" width="100px" /> </td>
             <td><?php echo number_format($so_luong,0,',','.')  ?></td>
             <td><?php echo  number_format($gia,0,',','.')  .' vnđ' ?></td>          
             <td><?php echo  number_format($thanh_tien,0,',','.')  .' vnđ'  ?></td>
-          </tr>
-        
 
+          </tr>
+          <?php }?>
+
+          <td>Tổng tiền thanh toán</td>
+          <td colspan="4"><?php echo  number_format($tong_tien,0,',','.')  .' vnđ' ?></td>
+
+          
         </table>
       </div>
 

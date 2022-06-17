@@ -31,14 +31,22 @@ function executeResult($sql) {
 	return $list;
 }
 
-function  insert_shippingTable($fullname,$phone,$address,$note,$account_id){
+function  insert_shippingTable($fullname,$phone,$address,$note,$account_id,$tong_tien,$ordered){
 	$conn = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
-	$stmt = $conn->prepare('INSERT INTO shipping(fullname,phone,address,note,account_id) VALUES(?,?,?,?,?)');
-	$stmt->bind_param('sssss',$fullname,$phone,$address,$note,$account_id);
+
+	$stmt = $conn->prepare('INSERT INTO shipping(fullname,phone,address,note,account_id) VALUES(?,?,?,?,?) ');
+	$stmt->bind_param("sssss",$fullname,$phone,$address,$note,$account_id);
 	$stmt->execute();
+
+	$stmt = $conn->prepare('INSERT INTO orders(number,account_id,ordered,ship_to,shipped,status,total) VALUES(?,?,?,?,?,?,?)' );
+	$stmt->bind_param("ssssssi",null,$account_id,$ordered,$address,null,null,$tong_tien);
+	$stmt->execute();
+
+	$stmt->close();
 	mysqli_close($conn);
 
 }
+INSERT INTO `orders`(`number`, `account_id`, `ordered`, `ship_to`, `shipped`, `status`, `total`) VALUES ('[value-1]','[value-2]', SET DATEFORMAT dmy'17/03/2011','[value-4]',null,null,300);
 
 function login($username, $password) {
 	$dbConnection = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);

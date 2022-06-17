@@ -12,7 +12,7 @@ else {
     if(isset($loginId) && isset($accountId)) {
         $cartRow = getCart($loginId, $accountId);
         $cartId = $cartRow[0]['id'];
-        print_r($cartRow[0]['id']);
+
     }
 }
 ?>

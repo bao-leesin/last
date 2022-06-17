@@ -24,7 +24,7 @@ if (!empty($_POST)) {
         $_SESSION[S_ACCOUNT_ID] = $data['accountId'];
         $_SESSION[S_USERNAME] = $s_username;
         echo "Success";
-        //header('Location: ./../index.php');
+        // header('Location: ./../../index.php');
     }
     else {
         echo "Fail";

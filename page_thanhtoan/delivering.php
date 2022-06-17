@@ -1,8 +1,29 @@
 <?php
-require_once('../dbhelper.php');
-$_SESSION['account_id'] = $account_id; 
-$list = getList_shipping($account_id);
-$data = getCart();
+require_once('./../dao/dbhelper.php');
+require_once('./../shared/config.php');
+
+session_start();
+$account_id = $fullname = $phone = $address = $note = "";
+$account_id = $_SESSION[S_ACCOUNT_ID];
+$loginId = $_SESSION[S_USERNAME];
+
+if(isset($loginId) && isset($account_id)) {
+  $cartRow = getCart($loginId, $account_id);
+  $cartId = $cartRow[0]['id'];
+ 
+}
+
+$sql = "SELECT * FROM shipping WHERE account_id = '$account_id'  ";
+$data = executeResult($sql);
+
+  $list = $data[0];
+
+  $fullname = $list['fullname'];
+  $phone = $list['phone'];
+  $address = $list['address'];
+  $note = $list['note'];
+
+
 ?>
 
 <head>
@@ -49,28 +70,37 @@ $data = getCart();
 <!-- Lại hiện thông tin sản phẩm   -->
 
         <h4>Sản phẩm</h4>
-        <table style="width: 100%; text-align: center; border-collapse: collapse;">
+        <table style="width: 100% ; text-align: center;border-collapse: collapse;" cellpadding = "10">
           <tr>
-            <th>Số thứ tự</th>
+          
             <th>Tên sản phẩm</th>
             <th>Hình ảnh</th>
             <th>Số lượng</th>
             <th>Giá sản phẩm</th>
             <th>Tổng tiền thanh toán</th>
           </tr>
+      
+          <?php 
 
+          $tong_tien=0;
+          foreach(getLineItemsInCart($cartId) as $lineItem) {           
+             $ten_san_pham = $lineItem['name'];
+             $hinh_anh = $lineItem['image'];
+             $so_luong = $lineItem['quantity'];
+             $gia = $lineItem['price'];
+             $thanh_tien = $gia * $so_luong;
+          
+             ?>
           <tr>
-           
-            <td><?php echo $ten_san_pham = "tên sản phẩm" ?></td>
-            <td><?php echo $hinh_anh = "tên sản phẩm" ?></td>
+            
+            <td><?php echo $ten_san_pham  ?></td>
+            <td><img src= "<?php echo $hinh_anh  ?>" width="100px" /> </td>
             <td><?php echo number_format($so_luong,0,',','.')  ?></td>
             <td><?php echo  number_format($gia,0,',','.')  .' vnđ' ?></td>          
             <td><?php echo  number_format($thanh_tien,0,',','.')  .' vnđ'  ?></td>
           </tr>
         
-           
-
-
+          <?php }?>
         </table>
 
     </div>
