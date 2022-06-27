@@ -13,16 +13,6 @@ if(isset($loginId) && isset($account_id)) {
  
 }
 
-$sql = "SELECT * FROM shipping WHERE account_id = '$account_id'  ";
-$data = executeResult($sql);
-
-  $list = $data[0];
-
-  $fullname = $list['fullname'];
-  $phone = $list['phone'];
-  $address = $list['address'];
-  $note = $list['note'];
-
 
 ?>
 
@@ -32,28 +22,44 @@ $data = executeResult($sql);
 </head>
 
 <div class="container">
-
-  <div class="arrow-steps clearfix">
+<div class="row">
+  <div class="col-sm-10 arrow-steps clearfix">
     <div class="step done"> <span> <a href="payment.php" >Thanh toán</a></span> </div>
     <div class="step current"> <span><a href="delivering.php" >Đang giao</a></span> </div>
     <div class="step"> <span><a href="finished.php" >Đã hoàn thành</a><span> </div>
   </div>
 
+  <div class="col-sm-2" >
+  <button class="btn btn-primary" onclick="location.href='/webBook/index.php'">Trang chủ</button>
+  </div>
+
+  </div>
+
   <div class="mt-3"></div>
-  
-  <div class="row">
-    <div class="col-md-12">
 
-<!-- Hiện thông tin đơn hàng đã hoàn thành ở trang Thanh Toán -->
+<div>
 
-    <h4>Thông tin đơn hàng</h4>
+    
+
+    <?php
+  foreach (get_order_delivering($account_id) as $order) {
+    $order_id = $order['id'];
+    $detail  = $order['details'];
+    $total = $order['total'];
+    $fullname = $order['fullname'];
+    $phone = $order['phone'];
+    $address = $order['address'];
+    $note = $order['note'];
+  ?>
+  <div style="padding: 20px;">
+<h4>Thông tin đơn số <?php echo $order_id ?></h4>
     <ul>
         <li>Họ và tên người nhận : <b> <?php echo $fullname ?></b></li>
         <li>Số điện thoại : <b> <?php echo $phone ?> </b></li>
         <li>Địa chỉ : <b> <?php echo $address ?> </b> </li>
         <li>Ghi chú : <b> <?php echo $note ?></b></li>
       </ul>
-      </div>
+     
       
       <style type="text/css">
           table,
@@ -67,23 +73,25 @@ $data = executeResult($sql);
           }
         </style>
 
-<!-- Lại hiện thông tin sản phẩm   -->
-
-        <h4>Sản phẩm</h4>
-        <table style="width: 100% ; text-align: center;border-collapse: collapse;" cellpadding = "10">
-          <tr>
+       
           
+        
+        <table style="width: 100% ; text-align: center;border-collapse: collapse;" cellpadding = "10">
+       
+          <tr>
             <th>Tên sản phẩm</th>
             <th>Hình ảnh</th>
             <th>Số lượng</th>
             <th>Giá sản phẩm</th>
-            <th>Tổng tiền thanh toán</th>
+            <th>Thành tiền</th>
+            
           </tr>
       
           <?php 
 
           $tong_tien=0;
-          foreach(getLineItemsInCart($cartId) as $lineItem) {           
+          foreach(get_lineItem_delivering($cartId,$order_id) as $lineItem) {
+
              $ten_san_pham = $lineItem['name'];
              $hinh_anh = $lineItem['image'];
              $so_luong = $lineItem['quantity'];
@@ -100,14 +108,43 @@ $data = executeResult($sql);
             <td><?php echo  number_format($thanh_tien,0,',','.')  .' vnđ'  ?></td>
           </tr>
         
-          <?php }?>
+          <?php 
+          }
+          ?>
+
+          <tr> 
+          <th>Phương thức thanh toán</th> 
+          <td colspan="4">
+          <?php
+          if($detail == "momo"){
+            echo $thanh_toan = "Ví momo";
+          }
+          elseif($detail == "bank"){
+            echo $thanh_toan = "Chuyển khoản ngân hàng";
+          }
+          else{
+            echo $thanh_toan = "Tiền mặt";
+          }
+          ?>
+          </td>
+          </tr>
+
+          <tr><th>Tổng tiền</th> 
+           <th colspan="4">
+            <?php 
+           echo number_format($total,0,',','.')  .' vnđ'
+           ?>
+           </th>
+        </tr>
+          
         </table>
-
-    </div>
-
+        </div>
+          <?php
+  }
+          ?>
+  
   </div>
 
-</div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
 <script src="../js/slide_pay.js"></script>

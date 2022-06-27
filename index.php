@@ -1,3 +1,5 @@
+
+
 <?php 
 require_once ('./dao/dbhelper.php');
 require_once ('./shared/config.php');
@@ -110,7 +112,7 @@ else {
             <a href="./page_authentication/register.php">Đăng ký</a>
         </div>
         <div id="logout" style="<?php echo $logoutStyle?>">
-            <a href="#">Logout</a>
+            <a href="./page_authentication/logout.php">Đăng xuất</a>
         </div>
         <script>
             var email = document.getElementById('email');

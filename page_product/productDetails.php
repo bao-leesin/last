@@ -7,6 +7,7 @@ $isLogin = false;
 
 if(isset($_SESSION[S_USERNAME])) {
     $isLogin = true;
+    $username = $_SESSION[S_USERNAME];
 }
 else {
     $isLogin = false;
@@ -24,6 +25,18 @@ else {
 if(isset($_GET[PARA_PRODUCT_ID])) {
     $productId = $_GET[PARA_PRODUCT_ID];
     $productDetail = getProductDetail($productId);
+}
+
+if(isset($_POST['post_cmt'])){
+    if(isset($username)){
+        $cmt=$_POST['your_cmt'];
+        insert_comment($productId,$username,$cmt);
+        header("Refresh:0");
+    }
+    else{
+    //   header("Location : ./../page_authentication/login.php")  ;
+      echo "<script> document.location = 'Location : ./../../page_authentication/login.php' </script>";
+    }
 }
 
 ?>
@@ -116,7 +129,7 @@ if(isset($_GET[PARA_PRODUCT_ID])) {
             <a href="#">Đăng ký</a>
         </div>
         <div id="logout" style="<?php echo $logoutStyle?>">
-            <a href="#">Logout</a>
+        <a href="./../page_authentication/logout.php">Đăng xuất</a>
         </div>
     </div>
 <!-- MENU -->
@@ -141,6 +154,7 @@ if(isset($_GET[PARA_PRODUCT_ID])) {
                         <div class="product-name"><?php echo $productDetail['name']?></div>
                         <div class="product-description"><?php echo $productDetail['description']?></div>
                     </div>
+                    
                     <div class="product-payment-info">
                         <div class="title">
                             Thông tin thanh toán
@@ -165,7 +179,76 @@ if(isset($_GET[PARA_PRODUCT_ID])) {
             </div>
         </div>
     </div>    
+    
 <!-- footer -->
+<div class="container">
+<section style="background-color: #eee;">
+  <div class="container my-5 py-5">
+    <div class="row d-flex" >
+      <div class="col-md-12 col-lg-10 col-xl-8">
+        <div class="card">
+            <?php
+         
+            foreach(get_comment($productId) as $comment)
+            {
+                $user_login_id = $comment['user_login_id'];
+                $avatar = $comment['avatar'];
+                $content = $comment['content'];
+                $date_cmt = $comment['date_cmt'];
+            }
+            ?>
+          <div class="card-body">
+            <div class="d-flex flex-start align-items-center">
+              <img class="rounded-circle shadow-1-strong me-3"
+                src=<?php echo $avatar ?> alt="avatar" width="60"
+                height="60" />
+              <div>
+                <h6 class="fw-bold text-primary mb-1"><?php echo $user_login_id ?></h6>
+                <p class="text-muted small mb-0">
+                <?php echo $date_cmt ?>
+                </p>
+              </div>
+            </div>
+
+            <p class="mt-3 mb-4 pb-2">
+            <?php echo $content ?>
+            </p>
+
+          </div>
+          <form action="" method="post">
+            <?php
+          
+            if (isset($username)){
+            $your_avatar = get_customer($username);
+            
+            // $avatar = $customer['avatar'];
+            }
+            ?>
+          <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+            <div class="d-flex flex-start w-100">
+              <img class="rounded-circle shadow-1-strong me-3 "
+                src="<?php echo $your_avatar ?>" alt="avatar" width="40"
+                height="40" style = "padding:5px" />
+              <div class="form-outline w-100">
+                <textarea name="your_cmt" class="form-control" id="textAreaExample" rows="4"
+                  style="background: #fff;" placeholder="Bạn hãy đăng nhập nếu muốn bình luận nhé"></textarea>
+               
+              </div>
+            </div>
+            <div class="float-end mt-2 pt-1">
+              <button type="submit" name="post_cmt"  class="btn btn-primary btn-sm">Bình luận</button>
+              <button type="button" class="btn btn-outline-primary btn-sm">Huỷ</button>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
+
+<!-- foot -->
     <div id="footer">
         <div id="logo">
             <img src="./../images/bocongthuong.png">

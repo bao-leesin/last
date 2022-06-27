@@ -86,10 +86,7 @@ else {
                         <p>Tổng tiền hàng</p>
                         <p><?php echo $totalPrice?> VND</p>
                     </div>
-                    <div class="menu_infor_item">
-                        <p>Phí vận chuyển</p>
-                        <p>Miễn phí</p>
-                    </div>
+                    
                     <div class="menu_infor_item">
                         <p>Tạm Tính</p>
                         <p><?php echo $totalPrice?> VND</p>

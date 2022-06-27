@@ -1,11 +1,12 @@
 <?php
-require_once('dbhelper.php');
+require_once('./../dao//dbhelper.php');
 $err="";
 if (!empty($_POST)){
+
 print_r($_POST);
 $email = $_POST['email'];
-$email = str_replace('\'', '\\\'', $email);
-$sql = "SELECT * FROM user WHERE email = '".$email."' ;";
+
+$sql = "SELECT * FROM customer WHERE email = '".$email."' ;";
 $data = executeResult($sql);
 if($data == null){
 $err="Tài khoản không tồn tại";
@@ -14,12 +15,12 @@ else{
 echo $token =  substr( md5(rand(0,999)),0,5) ;
 echo "<br/>";
 
-$sql = "UPDATE user SET token = '".$token."' WHERE email = '".$email."' ";
+$sql = "UPDATE customer SET token = '$token' WHERE email = '$email' ";
 execute($sql);
 
 $kq= guiMail($email,$token);
 if($kq == true){
-    echo "<script> document.location = 'changedpwd.php' </script>";
+    echo "<script> document.location = './changedpwd.php' </script>";
 }
 
 }
@@ -28,9 +29,10 @@ if($kq == true){
 
 <?php
 function guiMail($email,$token){
-require "PHPMailer-master/src/PHPMailer.php"; 
-require "PHPMailer-master/src/SMTP.php"; 
-require 'PHPMailer-master/src/Exception.php'; 
+require('./../PHPMailer-master/src/PHPMailer.php');
+require('./../PHPMailer-master/src/SMTP.php');
+require('./../PHPMailer-master/src/Exception.php');
+
 $mail = new PHPMailer\PHPMailer\PHPMailer(true);//true:enables exceptions
 try {
     $mail->SMTPDebug = 0; //0,1,2: chế độ debug
@@ -56,6 +58,7 @@ try {
         )
     ));
     $mail->send();
+
     echo 'Đã gửi mail xong';
     return true;
 } catch (Exception $e) {
@@ -84,12 +87,11 @@ try {
     <label for="email" class="form-label">Nhập Email: </label>
     <input  type="email" value=" <?php if (isset($email) == true) echo $email ?>" class="form-control" id="email" name = "email">
 
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
   </div>
   
  
   <button type="submit" name="guiyeucau" value="đã gửi" class="btn btn-primary">Gửi yêu cầu</button>
-  <a href="login.php"> <button class="btn btn-danger" type="button"> Quay lại </button> </a>
+  <a href="./../page_authentication/login.php"> <button class="btn btn-danger" type="button"> Quay lại </button> </a>
 </form>
     
 

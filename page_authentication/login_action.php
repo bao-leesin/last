@@ -23,8 +23,9 @@ if (!empty($_POST)) {
         //set session
         $_SESSION[S_ACCOUNT_ID] = $data['accountId'];
         $_SESSION[S_USERNAME] = $s_username;
+        header('Location: ./../index.php');
         echo "Success";
-        // header('Location: ./../../index.php');
+        
     }
     else {
         echo "Fail";

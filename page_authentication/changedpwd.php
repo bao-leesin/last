@@ -14,12 +14,12 @@ if(isset($_POST['password'])){
 $password = str_replace('\'', '\\\'', $password);
 $token     = str_replace('\'', '\\\'', $token);
 
-$sql = "SELECT * FROM user WHERE token = '".$token."' ; ";
+$sql = "SELECT * FROM customer WHERE token = '".$token."' ; ";
 $data = executeResult($sql);
 
 if($data != null){
 
-  $sql = "UPDATE user SET `password` = '".$password."' WHERE token = '".$token."' ";
+  $sql = "UPDATE users SET `password` = '$password' WHERE login_id = (SELECT user_login_id FROM customer WHERE token = '$token') ";
   
   echo "<script> document.location = 'home.php' </script>";
 }
